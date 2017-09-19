@@ -1,11 +1,19 @@
 import random
 
-#config
+# config
 low = 1
 high = 100
 limit = 10
 
-#helper function
+# helper functions
+def show_start_screen():
+    print("**************************")
+    print("**** Guess a Number ! ****")
+    print("**************************")
+
+def show_credits():
+    print("This awesome game was created by Mel.")
+    
 def get_guess():
     while True:
         guess = input("Guess a number: ")
@@ -16,46 +24,56 @@ def get_guess():
         else:
             print("You must enter a number.")
 
+def pick_number():
+    print("I'm thinking of a number from " + str(low) + " to " + str(high) +".")
+
+    return random.randint(low, high)
+
+def check_guess(guess, rand):
+    if guess < rand:
+        print("You guessed too low.")
+    elif guess > rand:
+        print("You guessed too high.")
+
+def show_result(guess, rand):
+    if guess == rand:
+        print("You win!")
+    else:
+        print("You moron! The number was " + str(rand) + ". Get it right next time idiot.")
+
 def play_again():
     while True:
-        decision = input("Would you like to play again? (y/n)")
+        decision = input("Would you like to play again? (y/n) ")
 
         if decision == 'y' or decision == 'yes':
             return True
-            print("yay!")
         elif decision == 'n' or decision == 'no':
             return False
         else:
             print("I don't understand. Please enter 'y' or 'n'.")
-
-again = True
-
-while again:
-    #start game
-    rand = random.randint(low, high)
-    print("I'm thinking of a number from " + str(low) + " to " + str(high) + ".");
-
+        
+def play():
     guess = -1
     tries = 0
 
+    rand = pick_number()
+    
     while guess != rand and tries < limit:
         guess = get_guess()
-        
-        if guess < rand:
-            print("You guessed too low.")
-        elif guess > rand:
-            print("You guessed too high.")
-        else:
-            print("You got it!")
+        check_guess(guess, rand)
 
         tries += 1
-        
-    if guess == rand:
-        print("You win!")
-    else:
-        print("You suck! The number was " + str(rand) + ".")
 
-    again = play_again()
+    show_result(guess, rand)
 
 
-print("Gosh you're so lame.")
+# Game starts running here
+show_start_screen()
+
+playing = True
+
+while playing:
+    play()
+    playing = play_again()
+
+show_credits()
