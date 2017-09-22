@@ -1,9 +1,10 @@
 import random
+import math
 
 # config
 low = 1
 high = 100
-limit = 10
+limit = math.ceil(math.log(high-low + 1, 2))
 
 # helper functions
 def show_start_screen():
